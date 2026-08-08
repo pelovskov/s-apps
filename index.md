@@ -10,3 +10,6 @@ title: Oversigt
 - [{{ p.title | default: p.name }}]({{ p.url | relative_url }})
 {% endfor %}
 {% endfor %}
+{% for f in site.static_files %}{% if f.extname == ".pdf" %}
+- [{{ f.name }}]({{ f.path | relative_url }})
+{% endif %}{% endfor %}
