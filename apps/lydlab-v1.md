@@ -1,5 +1,4 @@
-Nu bygger jeg den. Først kernen — måling og begrænsning — som jeg tester for sig, inden den kommer ind i appen.Her er **Lydlab** — samme opbygning og samme udseende som Fotolab, én fil, ingen internetforbindelse nødvendig.
-
+## Lydlab i browseren
 Man trækker en lydfil ind og vælger, hvad der skal ske: mono, fjern dyb brummen under 80 Hz, klip tavsheden væk i enderne, blød start og slutning, og hvor kraftigt stemmen skal jævnes ud. Loudness-målet står på −16 LUFS. Så trykker man på én knap.
 
 Bagefter viser den kurven før og efter, en skala hvor man kan se hvor optagelsen lå og hvor den endte, og knapper til at høre de to udgaver mod hinanden. Nederst gemmer man mp3'en i 96, 128 eller 192 kbit/s.
@@ -12,4 +11,4 @@ To ting du skal vide på forhånd:
 
 **Længden.** Over cirka 25 minutter siger appen selv til, at det kan blive tungt. Al lyden skal ligge i hukommelsen på én gang.
 
-Jeg har ingen browser her, så den er testet på beregningerne, ikke på knapperne. Prøv den på en optagelse du kender godt, og sig til hvis noget driller.
+Fra Cladue
