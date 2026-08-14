@@ -1,0 +1,154 @@
+<!-- lokalt-soegeindeks-genereret -->
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lokalhistorisk søgeindeks</title>
+<style>
+:root{
+  --accent:#9E2453;
+  --paper:#FAF9F5;
+  --paper-dim:#F1E7EC;
+  --ink:#2B1A22;
+  --line:#E3D3DA;
+  --muted:#6B5560;
+  --footer-strong:#3A2630;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:Georgia,"Times New Roman",serif;font-size:18px;line-height:1.5}
+header{max-width:1100px;margin:0 auto;padding:34px 20px 10px}
+h1{font-size:32px;margin:0 0 4px}
+.sub{color:var(--muted);font-size:16px;margin:0}
+.controls{max-width:1100px;margin:22px auto 6px;padding:0 20px;display:flex;gap:12px;flex-wrap:wrap}
+.controls input,.controls select{
+  font-family:inherit;font-size:16px;padding:10px 12px;border:2px solid var(--line);
+  border-radius:8px;background:#fff;color:var(--ink);min-height:44px;
+}
+.controls input{flex:1 1 260px}
+.controls select{flex:0 0 auto}
+.count{max-width:1100px;margin:14px auto 0;padding:0 20px;color:var(--muted);font-size:15px}
+.list{max-width:1100px;margin:10px auto 60px;padding:0 20px}
+a.row{
+  display:flex;gap:16px;align-items:flex-start;text-decoration:none;color:var(--ink);
+  padding:14px 14px;border-radius:8px;
+}
+a.row:hover{outline:2px solid var(--accent)}
+a.row:focus-visible{outline:3px solid var(--accent)}
+.row--a{background:var(--paper)}
+.row--b{background:var(--paper-dim)}
+.icon{font-size:22px;flex:0 0 30px}
+.col-main{flex:1 1 auto;min-width:0}
+.col-main .t{font-size:19px;font-weight:bold;color:var(--footer-strong)}
+.col-main .m{font-size:14.5px;color:var(--muted);margin-top:2px}
+.col-main .d{font-size:15px;color:var(--ink);margin-top:6px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.col-type{flex:0 0 auto;font-size:14px;color:var(--muted);align-self:center;white-space:nowrap}
+.empty{padding:30px 0;color:var(--muted)}
+footer{max-width:1100px;margin:0 auto;padding:10px 20px 50px;color:var(--muted);font-size:13.5px}
+@media(max-width:640px){.col-type{display:none}}
+</style>
+</head>
+<body>
+<header>
+<h1>Lokalhistorisk søgeindeks</h1>
+<p class="sub">7 poster · genereret 14. August 2026, 14:06</p>
+</header>
+
+<div class="controls">
+<input id="q" type="search" placeholder="Søg i titel, ophav, emne og beskrivelse …" aria-label="Søg">
+<select id="typeFilter" aria-label="Filtrér på type"><option value="">Alle typer</option></select>
+<select id="sortBy" aria-label="Sortér">
+<option value="title">Titel A–Å</option>
+<option value="date-new">Dato, nyeste først</option>
+<option value="date-old">Dato, ældste først</option>
+<option value="type">Type</option>
+</select>
+</div>
+
+<p class="count" id="count"></p>
+<div class="list" id="list"></div>
+
+<footer>
+Denne side er selvstændig og indeholder alt indhold direkte i filen. Genkør
+<em>Byg-soegeside.command</em> i mappen for at opdatere søgeindekset, når der er
+lagt nye filer til.
+</footer>
+
+<script>
+const DATA = [{"filnavn": "dqwddslagterd.html", "appformat": "billedalbum", "title": "dqwddSlagterd", "creator": "", "subject": "", "description": "dqwd", "publisher": "", "contributor": "", "date": "", "type": "Image", "format": "text/html", "identifier": "", "source": "", "language": "da", "relation": "", "coverage": "qwe", "rights": ""}, {"filnavn": "en-testbog.html", "appformat": "ebog", "title": "En testbog", "creator": "", "subject": "", "description": "Bogen her er ment som en test af systemet", "publisher": "", "contributor": "", "date": "", "type": "Text", "format": "text/html", "identifier": "", "source": "", "language": "da", "relation": "", "coverage": "Roskilde og andre steder", "rights": ""}, {"filnavn": "herfra-har-jeg-mange-minder.html", "appformat": "enkeltbillede", "title": "Gammel Landevej 25", "creator": "Poul Erik Løvskov", "subject": "vej i Roskilde; minder;", "description": "Det første lejlighedskompleks i Roskilde, opført som Socialt Boligbyggeri", "publisher": "Syd for Banen", "contributor": "Poul Erik Løvskov", "date": "2025-06-18", "type": "Image", "format": "text/html", "identifier": "https://sfbbilleder.eu/_data/i/upload/2025/06/18/20250618135847-68222799-me.jpg", "source": "Syd for Banens billedgalleri - Roskildebilleder", "language": "da", "relation": "https://sfbbilleder.eu/index.php?/category/177", "coverage": "Gammel Landevej 25, Roskilde", "rights": "MIT"}, {"filnavn": "krukkerne-paa-hestetorvet.html", "appformat": "billedalbum", "title": "Krukkerne paa Hestetorvet", "creator": "Niels Jørgen Rasmussen", "subject": "", "description": "RoskildekrukkerneVed Roskildes fejring af byens 1000 års historie i 1998 skænkede Stryhs Leverpostejs Fond dette værk til byen. Det er Peter Brandes, der har lavet de tre kæmpekrukker, der har form som en klassisk amfora, en vase, en søjle eller en urne. Det kan referere til det livgivende vand og d", "publisher": "", "contributor": "", "date": "2003-04-26/2026-03-18", "type": "Image", "format": "text/html", "identifier": "Piwigo album 259", "source": "https://sfbbilleder.eu/index.php?/category/259", "language": "da", "relation": "", "coverage": "", "rights": ""}, {"filnavn": "qwerqwer.html", "appformat": "enkeltbillede", "title": "qwerqwer", "creator": "", "subject": "", "description": "qwefwqef", "publisher": "", "contributor": "", "date": "2025-06-18", "type": "Image", "format": "text/html", "identifier": "", "source": "", "language": "da", "relation": "", "coverage": "", "rights": ""}, {"filnavn": "skridt-paa-asfalten.html", "appformat": "lydfortaelling-player", "title": "Når skridt på asfalten gør en forskel", "creator": "Poul Erik Løvskov", "subject": "Landsindsamling", "description": "En kølig luft af tidligt efterår, der rammer ansigtet og den velkendte lyd af en lille metaldåse, der klirrer blødt ved hvert skridt. Det er en helt almindelig søndag i Roskilde – og dog er den helt anderledes. For i dag går vi ikke bare for motionens skyld. Vi går for dem, der har allermest brug f…", "publisher": "Røde Kors Roskilde", "contributor": "Løvskov", "date": "2026-08-07", "type": "Sound", "format": "text/html", "identifier": "", "source": "", "language": "da", "relation": "", "coverage": "Roskilde", "rights": "Røde Kors Roskilde"}, {"filnavn": "spidafe.html", "appformat": "enkeltbillede", "title": "qwerqwer", "creator": "", "subject": "", "description": "qwefwqef", "publisher": "", "contributor": "", "date": "2025-06-18", "type": "Image", "format": "text/html", "identifier": "", "source": "", "language": "da", "relation": "", "coverage": "", "rights": ""}];
+const ICONS = {Sound:"🎧",Image:"🖼️",Text:"📖",Collection:"🗂️",InteractiveResource:"🧩",Event:"📌"};
+
+function yearOf(s){var m=(s||"").match(/\d{4}/); return m?m[0]:"0000";}
+
+const typeSel = document.getElementById("typeFilter");
+const seen = new Set();
+DATA.forEach(r=>{ if(r.type) seen.add(r.type); });
+Array.from(seen).sort().forEach(t=>{
+  const o=document.createElement("option"); o.value=t; o.textContent=t;
+  typeSel.appendChild(o);
+});
+
+function render(){
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const type = typeSel.value;
+  const sortBy = document.getElementById("sortBy").value;
+
+  let rows = DATA.filter(r=>{
+    if(type && r.type!==type) return false;
+    if(!q) return true;
+    const hay = (r.title+" "+r.creator+" "+r.subject+" "+r.description).toLowerCase();
+    return hay.indexOf(q)!==-1;
+  });
+
+  rows = rows.slice().sort((a,b)=>{
+    if(sortBy==="title") return a.title.localeCompare(b.title,"da");
+    if(sortBy==="type") return (a.type||"").localeCompare(b.type||"","da");
+    const ya=yearOf(a.date), yb=yearOf(b.date);
+    return sortBy==="date-new" ? yb.localeCompare(ya) : ya.localeCompare(yb);
+  });
+
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  document.getElementById("count").textContent =
+    "Viser " + rows.length + " af " + DATA.length + " poster";
+
+  if(rows.length===0){
+    const p=document.createElement("p");
+    p.className="empty"; p.textContent="Ingen poster matcher søgningen.";
+    list.appendChild(p); return;
+  }
+
+  rows.forEach((r,i)=>{
+    const a=document.createElement("a");
+    a.className="row " + (i%2===0?"row--a":"row--b");
+    a.href=encodeURI(r.filnavn); a.target="_blank"; a.rel="noopener";
+
+    const icon=document.createElement("span");
+    icon.className="icon"; icon.textContent = ICONS[r.type]||"📄";
+
+    const main=document.createElement("span");
+    main.className="col-main";
+    const t=document.createElement("span"); t.className="t"; t.textContent=r.title;
+    const m=document.createElement("span"); m.className="m";
+    m.textContent=[r.creator,r.date].filter(Boolean).join(" · ");
+    const d=document.createElement("span"); d.className="d"; d.textContent=r.description||"";
+    main.appendChild(t); main.appendChild(document.createElement("br"));
+    main.appendChild(m); main.appendChild(d);
+
+    const typ=document.createElement("span");
+    typ.className="col-type"; typ.textContent=r.type||"";
+
+    a.appendChild(icon); a.appendChild(main); a.appendChild(typ);
+    list.appendChild(a);
+  });
+}
+
+document.getElementById("q").addEventListener("input", render);
+typeSel.addEventListener("change", render);
+document.getElementById("sortBy").addEventListener("change", render);
+render();
+</script>
+</body>
+</html>
