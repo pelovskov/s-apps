@@ -899,7 +899,6 @@ function layoutCss(layout){
 function buildPageHTML(s, includeTaeller){
   const theme = THEMES[s.theme] || THEMES.original;
   const pageTitle = s.title || 'Kurateret samling';
-  const safeName = 'samling-' + safeNameFrom(s.title, 'uden-titel');
   const dc = collectDublinCore();
   const dcMeta = buildDcMetaTags(dc);
   const dcBlock = buildDcSection(dc);
@@ -921,6 +920,8 @@ function buildPageHTML(s, includeTaeller){
     : '';
   const footerNote = s.footerNote.trim()
     ? `<div class="footer-note">${escapeHtml(s.footerNote.trim())}</div>` : '';
+  const footerBlock = (backBlock || footerNote)
+    ? `<div class="footer">${backBlock}${footerNote}</div>` : '';
 
   const sourceData = {
     format: 'samling-forside',
@@ -1033,18 +1034,7 @@ ${layoutCss(s.layout)}
   }
   .back-link{ color:var(--rust); font-size:15.5px; text-decoration:none; }
   .back-link:hover{ text-decoration:underline; }
-  .dl-btn{
-    display:inline-flex; align-items:center; justify-content:center; gap:10px;
-    padding:12px 22px; border-radius:999px;
-    border:2px solid var(--rust); background:transparent;
-    color:var(--body-text); font-family:var(--sans);
-    font-size:16.5px; font-weight:700; cursor:pointer;
-    transition: background .15s ease, color .15s ease;
-  }
-  .dl-btn svg{ width:20px; height:20px; color:var(--rust); flex-shrink:0; }
-  .dl-btn:hover{ background:var(--rust); color:var(--card-text); }
-  .dl-btn:hover svg{ color:var(--card-text); }
-  .dl-btn:focus-visible{ outline:3px solid var(--rust); outline-offset:3px; }
+  .back-link:focus-visible{ outline:3px solid var(--rust); outline-offset:3px; }
   .footer-note{ font-size:14px; color:var(--footer-strong); font-style:italic; }
   @media (prefers-reduced-motion: reduce){
     *{ transition:none !important; }
@@ -1064,35 +1054,8 @@ ${layoutCss(s.layout)}
 ${cards}
     </div>
     ${dcBlock}
-    <div class="footer">
-      ${backBlock}
-      <button class="dl-btn" id="dlBtn" type="button" title="Gem denne side som en fil på din computer">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M6 9.5l6 6 6-6"/><path d="M5 20.5h14"/></svg>
-        <span>Gem filen</span>
-      </button>
-      ${footerNote}
-    </div>
+    ${footerBlock}
   </div>
-
-  <script>
-    const dlBtn = document.getElementById('dlBtn');
-    dlBtn.addEventListener('click', () => {
-      try {
-        const fullHtml = '<!DOCTYPE html>\\n' + document.documentElement.outerHTML;
-        const blob = new Blob([fullHtml], {type:'text/html'});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = '${safeName}.html';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      } catch(e){
-        alert('Kunne ikke downloade filen: ' + e.message);
-      }
-    });
-  <\/script>
 ${taellerBlock}</body>
 </html>`;
 }
