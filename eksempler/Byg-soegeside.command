@@ -163,13 +163,15 @@ footer{max-width:1100px;margin:0 auto;padding:10px 20px 50px;color:var(--muted);
 </header>
 
 <div class="controls">
-<input id="q" type="search" placeholder="Søg i titel, ophav, emne og beskrivelse …" aria-label="Søg">
+<input id="q" type="search" placeholder="Søg i titel, ophav, emne, udgiver, sted og beskrivelse …" aria-label="Søg">
+<select id="omraadeFilter" aria-label="Filtrér på område"><option value="">Alle områder</option></select>
 <select id="typeFilter" aria-label="Filtrér på type"><option value="">Alle typer</option></select>
 <select id="sortBy" aria-label="Sortér">
 <option value="title">Titel A–Å</option>
 <option value="date-new">Dato, nyeste først</option>
 <option value="date-old">Dato, ældste først</option>
 <option value="type">Type</option>
+<option value="omraade">Område</option>
 </select>
 </div>
 
@@ -196,21 +198,44 @@ Array.from(seen).sort().forEach(t=>{
   typeSel.appendChild(o);
 });
 
+/* Område = dc.publisher. Listen bygges af de udgivere der faktisk findes i mappen. */
+const omrSel = document.getElementById("omraadeFilter");
+const omrSeen = new Set();
+let udenOmraade = 0;
+DATA.forEach(r=>{ if(r.publisher) omrSeen.add(r.publisher); else udenOmraade++; });
+Array.from(omrSeen).sort((a,b)=>a.localeCompare(b,"da")).forEach(p=>{
+  const o=document.createElement("option"); o.value=p; o.textContent=p;
+  omrSel.appendChild(o);
+});
+if(udenOmraade){
+  const o=document.createElement("option");
+  o.value="__uden__"; o.textContent="(uden udgiver — " + udenOmraade + ")";
+  omrSel.appendChild(o);
+}
+
 function render(){
   const q = document.getElementById("q").value.trim().toLowerCase();
   const type = typeSel.value;
+  const omr = omrSel.value;
   const sortBy = document.getElementById("sortBy").value;
 
   let rows = DATA.filter(r=>{
     if(type && r.type!==type) return false;
+    if(omr === "__uden__"){ if(r.publisher) return false; }
+    else if(omr && r.publisher!==omr) return false;
     if(!q) return true;
-    const hay = (r.title+" "+r.creator+" "+r.subject+" "+r.description).toLowerCase();
+    const hay = (r.title+" "+r.creator+" "+r.subject+" "+r.publisher+" "+
+                 r.coverage+" "+r.description).toLowerCase();
     return hay.indexOf(q)!==-1;
   });
 
   rows = rows.slice().sort((a,b)=>{
     if(sortBy==="title") return a.title.localeCompare(b.title,"da");
     if(sortBy==="type") return (a.type||"").localeCompare(b.type||"","da");
+    if(sortBy==="omraade"){
+      const c=(a.publisher||"ÅÅÅ").localeCompare(b.publisher||"ÅÅÅ","da");
+      return c!==0 ? c : a.title.localeCompare(b.title,"da");
+    }
     const ya=yearOf(a.date), yb=yearOf(b.date);
     return sortBy==="date-new" ? yb.localeCompare(ya) : ya.localeCompare(yb);
   });
@@ -238,7 +263,7 @@ function render(){
     main.className="col-main";
     const t=document.createElement("span"); t.className="t"; t.textContent=r.title;
     const m=document.createElement("span"); m.className="m";
-    m.textContent=[r.creator,r.date].filter(Boolean).join(" · ");
+    m.textContent=[r.creator,r.date,r.publisher].filter(Boolean).join(" · ");
     const d=document.createElement("span"); d.className="d"; d.textContent=r.description||"";
     main.appendChild(t); main.appendChild(document.createElement("br"));
     main.appendChild(m); main.appendChild(d);
@@ -252,6 +277,7 @@ function render(){
 }
 
 document.getElementById("q").addEventListener("input", render);
+omrSel.addEventListener("change", render);
 typeSel.addEventListener("change", render);
 document.getElementById("sortBy").addEventListener("change", render);
 render();
